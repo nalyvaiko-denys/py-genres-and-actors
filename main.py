@@ -6,51 +6,50 @@ from db.models import Actor, Genre
 
 
 def main() -> QuerySet:
-    Genre.objects.create(name="Western")
-    action = Genre.objects.create(name="Action")
-    dramma = Genre.objects.create(name="Dramma")
+    genres = [
+        ("Western",),
+        ("Action",),
+        ("Dramma",),
+    ]
 
-    george = Actor.objects.create(
-        first_name="George",
-        last_name="Klooney",
-    )
+    for name, in genres:
+        Genre.objects.create(name=name)
 
-    kianu = Actor.objects.create(
-        first_name="Kianu",
-        last_name="Reaves",
-    )
+    actors = [
+        ("George", "Klooney"),
+        ("Kianu", "Reaves"),
+        ("Scarlett", "Keegan"),
+        ("Will", "Smith"),
+        ("Jaden", "Smith"),
+        ("Scarlett", "Johansson"),
+    ]
 
-    Actor.objects.create(
-        first_name="Scarlett",
-        last_name="Keegan",
-    )
+    for first_name, last_name in actors:
+        Actor.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+        )
 
-    Actor.objects.create(
-        first_name="Will",
-        last_name="Smith",
-    )
-
-    Actor.objects.create(
-        first_name="Jaden",
-        last_name="Smith",
-    )
-
-    Actor.objects.create(
-        first_name="Scarlett",
-        last_name="Johansson",
-    )
-
+    dramma = Genre.objects.get(name="Dramma")
     dramma.name = "Drama"
     dramma.save()
 
+    george = Actor.objects.get(
+        first_name="George",
+        last_name="Klooney",
+    )
     george.last_name = "Clooney"
     george.save()
 
+    kianu = Actor.objects.get(
+        first_name="Kianu",
+        last_name="Reaves",
+    )
     kianu.first_name = "Keanu"
     kianu.last_name = "Reeves"
     kianu.save()
 
-    action.delete()
+    Genre.objects.get(name="Action").delete()
 
     Actor.objects.filter(first_name="Scarlett").delete()
 
